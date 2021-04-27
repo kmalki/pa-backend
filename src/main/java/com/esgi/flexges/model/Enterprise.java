@@ -8,18 +8,16 @@ public class Enterprise {
     private String adminPassword;
     private String address;
     private String city;
-    private List<String> employees;
 
     public Enterprise() {
     }
 
-    public Enterprise(String name, String adminEmail, String adminPassword, String address, String city, List<String> employees) {
+    public Enterprise(String name, String adminEmail, String adminPassword, String address, String city) {
         this.name = name;
         this.adminEmail = adminEmail;
         this.adminPassword = adminPassword;
         this.address = address;
         this.city = city;
-        this.employees = employees;
     }
 
     public String getName() {
@@ -46,13 +44,6 @@ public class Enterprise {
         this.city = city;
     }
 
-    public List<String> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<String> employees) {
-        this.employees = employees;
-    }
     public String getAdminEmail() {
         return adminEmail;
     }
