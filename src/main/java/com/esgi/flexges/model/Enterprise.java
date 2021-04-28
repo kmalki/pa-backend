@@ -68,7 +68,6 @@ public class Enterprise {
                 ", adminPassword='" + adminPassword + '\'' +
                 ", address='" + address + '\'' +
                 ", city='" + city + '\'' +
-                ", employees=" + employees +
                 '}';
     }
 }
