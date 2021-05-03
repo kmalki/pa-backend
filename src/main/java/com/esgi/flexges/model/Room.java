@@ -1,11 +1,15 @@
 package com.esgi.flexges.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Room {
 
     private String enterprise;
     private String name;
     private int capacity;
     private int current = 0;
+    private List<String> employees = new ArrayList<>();
 
     public Room() {
     }
@@ -48,13 +52,22 @@ public class Room {
         this.capacity = capacity;
     }
 
+    public List<String> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<String> employees) {
+        this.employees = employees;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
                 "enterprise='" + enterprise + '\'' +
                 ", name='" + name + '\'' +
-                ", current=" + current +
                 ", capacity=" + capacity +
+                ", current=" + current +
+                ", employees=" + employees +
                 '}';
     }
 }
