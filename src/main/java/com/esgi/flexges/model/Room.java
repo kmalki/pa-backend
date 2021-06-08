@@ -2,6 +2,7 @@ package com.esgi.flexges.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Room {
 
@@ -9,6 +10,7 @@ public class Room {
     private String name;
     private int capacity;
     private int current = 0;
+    private String id = UUID.randomUUID().toString();
     private List<String> employees = new ArrayList<>();
 
     public Room() {
@@ -60,6 +62,14 @@ public class Room {
         this.employees = employees;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
@@ -67,6 +77,7 @@ public class Room {
                 ", name='" + name + '\'' +
                 ", capacity=" + capacity +
                 ", current=" + current +
+                ", id='" + id + '\'' +
                 ", employees=" + employees +
                 '}';
     }

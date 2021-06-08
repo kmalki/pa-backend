@@ -80,9 +80,9 @@ public class EnterpriseService {
 
         userRepository.updateUsersRights(employees.stream().map(
                 e -> new UserApp(e, enterprise.getName())
-                ).collect(Collectors.toList()));
+                ).collect(Collectors.toList()), false);
         enterpriseRepository.addEnterprise(enterprise);
-        roomRepository.addRooms(rooms, enterprise);
+        roomRepository.addRooms(rooms);
     }
 
 
@@ -94,6 +94,23 @@ public class EnterpriseService {
         for(UserApp us : users){
             userRepository.addUser(us);
         }
-        userRepository.updateUsersRights(users);
+        userRepository.updateUsersRights(users, false);
+    }
+
+    public void updateEmployees(List<UserApp> users) throws ExecutionException, InterruptedException {
+        userRepository.updateEmployees(users);
+    }
+
+
+    public void kickEmployees(List<UserApp> users) throws ExecutionException, InterruptedException {
+        userRepository.updateUsersRights(users, true);
+    }
+
+    public void updateRooms(List<Room> rooms) throws ExecutionException, InterruptedException {
+        roomRepository.updateRooms(rooms);
+    }
+
+    public void deleteRooms(List<Room> rooms) throws ExecutionException, InterruptedException {
+        roomRepository.deleteRooms(rooms);
     }
 }

@@ -1,6 +1,7 @@
 package com.esgi.flexges.rest;
 
 import com.esgi.flexges.model.Enterprise;
+import com.esgi.flexges.model.Room;
 import com.esgi.flexges.model.UserApp;
 import com.esgi.flexges.repository.UserRepository;
 import com.esgi.flexges.service.EnterpriseService;
@@ -64,5 +65,29 @@ public class EnterpriseController {
     public ResponseEntity<String> addEmployees(@RequestBody List<UserApp> users) throws Exception {
         enterpriseService.addEmployees(users);
         return ResponseEntity.status(HttpStatus.CREATED).body("ok");
+    }
+
+    @PostMapping("/updateEmployees")
+    public ResponseEntity<String> updateEmployees(@RequestBody List<UserApp> users) throws Exception {
+        enterpriseService.updateEmployees(users);
+        return ResponseEntity.status(HttpStatus.OK).body("ok");
+    }
+
+    @PostMapping("/kickEmployees")
+    public ResponseEntity<String> kickEmployees(@RequestBody List<UserApp> users) throws Exception {
+        enterpriseService.kickEmployees(users);
+        return ResponseEntity.status(HttpStatus.OK).body("ok");
+    }
+
+    @PostMapping("/updateRooms")
+    public ResponseEntity<String> updateRooms(@RequestBody List<Room> rooms, List<String> oldNames) throws Exception {
+        enterpriseService.updateRooms(rooms);
+        return ResponseEntity.status(HttpStatus.OK).body("ok");
+    }
+
+    @PostMapping("/deleteRooms")
+    public ResponseEntity<String> deleteRooms(@RequestBody List<Room> rooms) throws Exception {
+        enterpriseService.deleteRooms(rooms);
+        return ResponseEntity.status(HttpStatus.OK).body("ok");
     }
 }

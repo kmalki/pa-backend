@@ -2,6 +2,7 @@ package com.esgi.flexges.repository;
 
 import com.esgi.flexges.model.Enterprise;
 import com.esgi.flexges.model.Room;
+import com.esgi.flexges.model.UserApp;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import org.slf4j.Logger;
@@ -23,24 +24,17 @@ public class RoomRepository {
     private final Logger logger = LoggerFactory.getLogger(RoomRepository.class);
 
 
-    public void addRooms(List<Room> rooms, Enterprise enterprise) throws ExecutionException, InterruptedException {
+    public void addRooms(List<Room> rooms) {
+        WriteBatch batch = firestore.batch();
+
         for(Room r : rooms){
-            ApiFuture<QuerySnapshot> future_get = firestore.collection("rooms")
-                    .whereEqualTo("enterprise", r.getEnterprise()).whereEqualTo("name", r.getName()).get();
-
-            QuerySnapshot doc = future_get.get();
-
-            if(!doc.isEmpty()){
-                ApiFuture<WriteResult> future_insert = firestore.collection("rooms")
-                        .document(enterprise.getName()+r.getName()).set(r);
-                logger.info("Document room already exists, updated time : " + future_insert.get().getUpdateTime());
-
-            }else{
-                ApiFuture<WriteResult> future_insert = firestore.collection("rooms")
-                        .document(enterprise.getName()+r.getName()).set(r);
-                logger.info("Document room insert time : " + future_insert.get().getUpdateTime());
-            }
+            DocumentReference docRef = firestore.collection("rooms").document(r.getId());
+            batch.set(docRef, r);
         }
+
+        batch.commit();
+
+        logger.info(String.valueOf(rooms.size()), "rooms added");
     }
 
     public List<Room> getUserRooms(String enterprise) throws ExecutionException, InterruptedException {
@@ -48,4 +42,43 @@ public class RoomRepository {
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         return documents.stream().map(r -> r.toObject(Room.class)).collect(Collectors.toList());
     }
-}
+
+    public void updateRooms(List<Room> rooms) throws ExecutionException, InterruptedException {
+        WriteBatch batch = firestore.batch();
+
+        ApiFuture<QuerySnapshot> future_get = firestore.collection("rooms")
+                .whereIn("id", rooms.stream().map(Room::getId).collect(Collectors.toList())).get();
+
+        List<QueryDocumentSnapshot> documents = future_get.get().getDocuments();
+
+        if(documents.isEmpty()){
+            logger.info("No room found for this enterprise");
+        }else{
+            int n = 0;
+            for (QueryDocumentSnapshot doc : documents) {
+                for (Room r : rooms){
+                    if(r.getId().equals(doc.getId())){
+                        batch.set(doc.getReference(), r);
+                        n+=1;
+                        break;
+                    }
+                }
+            }
+            batch.commit();
+            logger.info(String.valueOf(n), "rooms updated");
+        }
+    }
+
+    public void deleteRooms(List<Room> rooms) {
+        WriteBatch batch = firestore.batch();
+
+        for(Room r : rooms){
+            DocumentReference roomRef = firestore.collection("rooms").document(r.getId());
+            batch.delete(roomRef);
+        }
+
+        batch.commit();
+        logger.info(String.valueOf(rooms.size()), "rooms deleted");
+
+        }
+    }

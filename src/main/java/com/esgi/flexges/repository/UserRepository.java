@@ -40,7 +40,7 @@ public class UserRepository {
         logger.info("Document user update time : " + future_insert.get().getUpdateTime());
     }
 
-    public void updateUsersRights(List<UserApp> employees) throws ExecutionException, InterruptedException {
+    public void updateUsersRights(List<UserApp> employees, boolean kick) throws ExecutionException, InterruptedException {
 
         WriteBatch batch = firestore.batch();
 
@@ -52,7 +52,11 @@ public class UserRepository {
         }
         else {
             for (QueryDocumentSnapshot doc : documents) {
-                batch.update(doc.getReference(), "enterprise", employees.get(0).getEnterprise());
+                if(kick){
+                    batch.update(doc.getReference(), "enterprise", null);
+                }else{
+                    batch.update(doc.getReference(), "enterprise", employees.get(0).getEnterprise());
+                }
             }
             batch.commit();
             logger.info(String.valueOf(documents.size()), "user rights updated");
@@ -64,4 +68,29 @@ public class UserRepository {
         return future_get.get().toObject(UserApp.class);
     }
 
+    public void updateEmployees(List<UserApp> employees) throws ExecutionException, InterruptedException {
+
+        WriteBatch batch = firestore.batch();
+
+        ApiFuture<QuerySnapshot> future = firestore.collection("users").whereIn("email", employees.stream().map(UserApp::getEmail).collect(Collectors.toList())).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        if(documents.isEmpty()){
+            logger.info("No user found for this enterprise");
+        }
+        else {
+            int n = 0;
+            for (QueryDocumentSnapshot doc : documents) {
+                for(UserApp e : employees){
+                    if(e.getEmail().equals(Objects.requireNonNull(doc.get("email")).toString())){
+                        batch.set(doc.getReference(), e);
+                        n+=1;
+                        break;
+                    }
+                }
+            }
+            batch.commit();
+            logger.info(String.valueOf(n), "employees updated");
+        }
+    }
 }
