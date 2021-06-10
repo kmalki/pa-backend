@@ -80,13 +80,13 @@ public class EnterpriseController {
     }
 
     @PostMapping("/updateRooms")
-    public ResponseEntity<String> updateRooms(@RequestBody List<Room> rooms, List<String> oldNames) throws Exception {
+    public ResponseEntity<String> updateRooms(@RequestBody List<Room> rooms) throws Exception {
         enterpriseService.updateRooms(rooms);
         return ResponseEntity.status(HttpStatus.OK).body("ok");
     }
 
     @PostMapping("/deleteRooms")
-    public ResponseEntity<String> deleteRooms(@RequestBody List<Room> rooms) throws Exception {
+    public ResponseEntity<String> deleteRooms(@RequestBody List<Room> rooms) {
         enterpriseService.deleteRooms(rooms);
         return ResponseEntity.status(HttpStatus.OK).body("ok");
     }

@@ -110,7 +110,7 @@ public class EnterpriseService {
         roomRepository.updateRooms(rooms);
     }
 
-    public void deleteRooms(List<Room> rooms) throws ExecutionException, InterruptedException {
+    public void deleteRooms(List<Room> rooms) {
         roomRepository.deleteRooms(rooms);
     }
 }

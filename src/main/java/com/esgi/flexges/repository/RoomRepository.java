@@ -3,6 +3,8 @@ package com.esgi.flexges.repository;
 import com.esgi.flexges.model.Enterprise;
 import com.esgi.flexges.model.Room;
 import com.esgi.flexges.model.UserApp;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -51,6 +54,10 @@ public class RoomRepository {
 
         List<QueryDocumentSnapshot> documents = future_get.get().getDocuments();
 
+        logger.info("length" + documents.size());
+
+        ObjectMapper mapper = new ObjectMapper();
+
         if(documents.isEmpty()){
             logger.info("No room found for this enterprise");
         }else{
@@ -58,14 +65,19 @@ public class RoomRepository {
             for (QueryDocumentSnapshot doc : documents) {
                 for (Room r : rooms){
                     if(r.getId().equals(doc.getId())){
-                        batch.set(doc.getReference(), r);
+                        Map<String, Object> roomMap = mapper.convertValue(r, new TypeReference<Map<String, Object>>(){});
+                        roomMap.remove("current");
+                        roomMap.remove("id");
+                        logger.info(roomMap.toString());
+                        batch.update(doc.getReference(), roomMap);
+//                        batch.set(doc.getReference(), r);
                         n+=1;
                         break;
                     }
                 }
             }
             batch.commit();
-            logger.info(String.valueOf(n), "rooms updated");
+            logger.info(n + "rooms updated");
         }
     }
 
