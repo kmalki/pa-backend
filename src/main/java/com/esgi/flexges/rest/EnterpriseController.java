@@ -48,7 +48,7 @@ public class EnterpriseController {
         return ResponseEntity.status(HttpStatus.CREATED).body("ok");
     }
 
-    @GetMapping("/getEmployees")
+    @PostMapping("/getEmployees")
     public ResponseEntity<List<String>> getEmployees(@RequestBody Enterprise enterprise) throws Exception {
         List<String> employees = enterpriseService.getEmployees(enterprise);
         return ResponseEntity.status(HttpStatus.CREATED).body(employees);
