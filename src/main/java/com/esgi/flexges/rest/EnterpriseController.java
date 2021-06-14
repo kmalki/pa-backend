@@ -49,8 +49,8 @@ public class EnterpriseController {
     }
 
     @PostMapping("/getEmployees")
-    public ResponseEntity<List<String>> getEmployees(@RequestBody Enterprise enterprise) throws Exception {
-        List<String> employees = enterpriseService.getEmployees(enterprise);
+    public ResponseEntity<List<UserApp>> getEmployees(@RequestBody Enterprise enterprise) throws Exception {
+        List<UserApp> employees = enterpriseService.getEmployees(enterprise);
         return ResponseEntity.status(HttpStatus.CREATED).body(employees);
     }
 

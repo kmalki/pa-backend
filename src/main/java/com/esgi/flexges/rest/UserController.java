@@ -1,6 +1,7 @@
 package com.esgi.flexges.rest;
 
 
+import com.esgi.flexges.model.Login;
 import com.esgi.flexges.model.Room;
 import com.esgi.flexges.model.UserApp;
 import com.esgi.flexges.repository.UserRepository;
@@ -35,9 +36,14 @@ public class UserController {
     @PostMapping("/sign-up")
     public ResponseEntity<String> signUp(@RequestBody UserApp user) throws Exception {
         userService.createUser(user);
-//        userRepository.addUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 "ok");
+    }
+
+    @PostMapping("/login-up")
+    public ResponseEntity<UserApp> login(@RequestBody Login user) throws Exception {
+        UserApp userApp = userService.getUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userApp);
     }
 
     @PostMapping("/getRooms")

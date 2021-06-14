@@ -59,7 +59,7 @@ public class UserRepository {
                 }
             }
             batch.commit();
-            logger.info(String.valueOf(documents.size()), "user rights updated");
+            logger.info(documents.size() + "user rights updated");
         }
     }
 
@@ -90,7 +90,7 @@ public class UserRepository {
                 }
             }
             batch.commit();
-            logger.info(String.valueOf(n), "employees updated");
+            logger.info(n + "employees updated");
         }
     }
 }
