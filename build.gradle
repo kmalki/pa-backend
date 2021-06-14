@@ -23,6 +23,7 @@ dependencies {
 	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '7.1.1'
 	// https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
 	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+	runtimeOnly group: 'io.perfmark', name: 'perfmark-api', version: '0.23.0'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

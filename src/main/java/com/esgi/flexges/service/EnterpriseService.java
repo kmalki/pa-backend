@@ -14,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,9 @@ import java.util.stream.Collectors;
 public class EnterpriseService {
 
     private final Logger logger = LoggerFactory.getLogger(EnterpriseService.class);
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private EnterpriseRepository enterpriseRepository;
@@ -92,6 +96,7 @@ public class EnterpriseService {
 
     public void addEmployees(List<UserApp> users) throws Exception {
         for(UserApp us : users){
+            us.setPassword(bCryptPasswordEncoder.encode(us.getPassword()));
             userRepository.addUser(us);
         }
         userRepository.updateUsersRights(users, false);
