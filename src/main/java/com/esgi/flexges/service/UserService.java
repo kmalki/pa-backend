@@ -29,7 +29,13 @@ public class UserService {
     }
 
     public UserApp getUser(Login user) throws ExecutionException, InterruptedException {
-        return userRepository.findByEmail(user.getLogin());
+        UserApp userApp = userRepository.findByEmail(user.getLogin());
+        if(userApp != null){
+            if(userApp.getPassword().equals(bCryptPasswordEncoder.encode(user.getPassword()))){
+                return userApp;
+            }
+        }
+        return null;
     }
 
 }

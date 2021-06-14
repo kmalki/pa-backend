@@ -40,10 +40,15 @@ public class UserController {
                 "ok");
     }
 
-    @PostMapping("/login-up")
+    @PostMapping("/login")
     public ResponseEntity<UserApp> login(@RequestBody Login user) throws Exception {
         UserApp userApp = userService.getUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userApp);
+        if(userApp!=null) {
+            return ResponseEntity.status(HttpStatus.OK).body(userApp);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new UserApp());
+        }
     }
 
     @PostMapping("/getRooms")
