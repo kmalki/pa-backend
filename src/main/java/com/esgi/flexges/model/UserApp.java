@@ -5,7 +5,7 @@ public class UserApp {
     private String email;
     private String password;
     private String enterprise;
-    private boolean isAdmin;
+    private boolean admin;
 
     public UserApp() {
     }
@@ -15,11 +15,11 @@ public class UserApp {
         this.enterprise = enterprise;
     }
 
-    public UserApp(String email, String password, String enterprise, boolean isAdmin) {
+    public UserApp(String email, String password, String enterprise, boolean admin) {
         this.email = email;
         this.password = password;
         this.enterprise = enterprise;
-        this.isAdmin = isAdmin;
+        this.admin = admin;
     }
 
     public String getEmail() {
@@ -47,11 +47,11 @@ public class UserApp {
     }
 
     public void setAdmin(boolean admin) {
-        isAdmin = admin;
+        this.admin = admin;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public boolean getAdmin() {
+        return admin;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class UserApp {
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", enterprise='" + enterprise + '\'' +
-                ", isAdmin=" + isAdmin +
+                ", admin=" + admin +
                 '}';
     }
 }
