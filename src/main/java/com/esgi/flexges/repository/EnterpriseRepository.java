@@ -41,9 +41,9 @@ public class EnterpriseRepository {
     }
 
 
-    public List<UserApp> getEmployees(Enterprise enterprise) throws ExecutionException, InterruptedException {
-        logger.info(enterprise.getName());
-        ApiFuture<QuerySnapshot> future_get = firestore.collection("users").whereEqualTo("enterprise", enterprise.getName()).get();
+    public List<UserApp> getEmployees(String enterprise) throws ExecutionException, InterruptedException {
+//        logger.info(enterprise.getName());
+        ApiFuture<QuerySnapshot> future_get = firestore.collection("users").whereEqualTo("enterprise", enterprise).get();
         return future_get.get().toObjects(UserApp.class);
     }
 }

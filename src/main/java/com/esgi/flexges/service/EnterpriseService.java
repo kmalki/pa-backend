@@ -90,7 +90,7 @@ public class EnterpriseService {
     }
 
 
-    public List<UserApp> getEmployees(Enterprise enterprise) throws ExecutionException, InterruptedException {
+    public List<UserApp> getEmployees(String enterprise) throws ExecutionException, InterruptedException {
         return enterpriseRepository.getEmployees(enterprise);
     }
 
@@ -117,5 +117,9 @@ public class EnterpriseService {
 
     public void deleteRooms(List<Room> rooms) {
         roomRepository.deleteRooms(rooms);
+    }
+
+    public void createRoom(Room room) {
+        roomRepository.createRoom(room);
     }
 }

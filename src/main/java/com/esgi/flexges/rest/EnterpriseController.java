@@ -6,6 +6,7 @@ import com.esgi.flexges.model.UserApp;
 import com.esgi.flexges.repository.UserRepository;
 import com.esgi.flexges.service.EnterpriseService;
 import com.esgi.flexges.service.UserService;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +50,13 @@ public class EnterpriseController {
     }
 
     @PostMapping("/getEmployees")
-    public ResponseEntity<List<UserApp>> getEmployees(@RequestBody Enterprise enterprise) throws Exception {
-        List<UserApp> employees = enterpriseService.getEmployees(enterprise);
-        return ResponseEntity.status(HttpStatus.CREATED).body(employees);
+    public ResponseEntity<List<UserApp>> getEmployees(@RequestBody JsonNode enterprise) throws Exception {
+        if(enterprise.has("enterpriseName")) {
+            List<UserApp> employees = enterpriseService.getEmployees(enterprise.get("enterpriseName").asText());
+            return ResponseEntity.status(HttpStatus.OK).body(employees);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @GetMapping("/test")
@@ -77,6 +82,12 @@ public class EnterpriseController {
     public ResponseEntity<String> kickEmployees(@RequestBody List<UserApp> users) throws Exception {
         enterpriseService.kickEmployees(users);
         return ResponseEntity.status(HttpStatus.OK).body("ok");
+    }
+
+    @PostMapping("/createRoom")
+    public ResponseEntity<String> createRoom(@RequestBody Room room){
+        enterpriseService.createRoom(room);
+        return ResponseEntity.status(HttpStatus.CREATED).body("ok");
     }
 
     @PostMapping("/updateRooms")
