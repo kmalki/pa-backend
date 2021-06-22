@@ -24,26 +24,34 @@ public class EnterpriseRepository {
 
     public void addEnterprise(Enterprise enterprise) throws Exception {
 
-        ApiFuture<DocumentSnapshot> future_get = firestore.collection("enterprises").document(enterprise.getName()).get();
+        ApiFuture<DocumentSnapshot> future_get = firestore.collection("enterprises").document(enterprise.getId()).get();
 
         DocumentSnapshot doc = future_get.get();
 
         if(doc.exists()){
             ApiFuture<WriteResult> future_insert = firestore.collection("enterprises")
-                    .document(enterprise.getName()).set(enterprise);
+                    .document(enterprise.getId()).set(enterprise);
             logger.info("Document enterprise already exists, updated : " + future_insert.get().getUpdateTime());
 
         }else{
             ApiFuture<WriteResult> future_insert = firestore.collection("enterprises")
-                    .document(enterprise.getName()).set(enterprise);
+                    .document(enterprise.getId()).set(enterprise);
             logger.info("Document enterprise insert time : " + future_insert.get().getUpdateTime());
         }
     }
 
 
-    public List<UserApp> getEmployees(String enterprise) throws ExecutionException, InterruptedException {
+    public List<UserApp> getEmployees(String enterpriseId) throws ExecutionException, InterruptedException {
 //        logger.info(enterprise.getName());
-        ApiFuture<QuerySnapshot> future_get = firestore.collection("users").whereEqualTo("enterprise", enterprise).get();
-        return future_get.get().toObjects(UserApp.class);
+        ApiFuture<DocumentSnapshot> future_get = firestore.collection("enterprises").document(enterpriseId).get();
+
+        DocumentSnapshot doc = future_get.get();
+
+        if(doc.exists()) {
+            ApiFuture<QuerySnapshot> future_get_2 = firestore.collection("users").whereEqualTo("enterpriseId", doc.get("enterpriseId")).get();
+            return future_get_2.get().toObjects(UserApp.class);
+        }else{
+            return null;
+        }
     }
 }

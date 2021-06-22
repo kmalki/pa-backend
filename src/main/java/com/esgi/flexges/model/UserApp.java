@@ -5,6 +5,7 @@ public class UserApp {
     private String email;
     private String password;
     private String enterprise;
+    private String enterpriseId;
     private boolean admin;
 
     public UserApp() {
@@ -54,12 +55,21 @@ public class UserApp {
         return admin;
     }
 
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
     @Override
     public String toString() {
         return "UserApp{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", enterprise='" + enterprise + '\'' +
+                ", enterpriseId='" + enterpriseId + '\'' +
                 ", admin=" + admin +
                 '}';
     }

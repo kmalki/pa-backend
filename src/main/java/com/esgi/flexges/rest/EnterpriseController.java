@@ -50,13 +50,9 @@ public class EnterpriseController {
     }
 
     @PostMapping("/getEmployees")
-    public ResponseEntity<List<UserApp>> getEmployees(@RequestBody JsonNode enterprise) throws Exception {
-        if(enterprise.has("enterpriseName")) {
-            List<UserApp> employees = enterpriseService.getEmployees(enterprise.get("enterpriseName").asText());
-            return ResponseEntity.status(HttpStatus.OK).body(employees);
-        }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+    public ResponseEntity<List<UserApp>> getEmployees(@RequestBody String enterpriseId) throws Exception {
+        List<UserApp> employees = enterpriseService.getEmployees(enterpriseId);
+        return ResponseEntity.status(HttpStatus.OK).body(employees);
     }
 
     @GetMapping("/test")

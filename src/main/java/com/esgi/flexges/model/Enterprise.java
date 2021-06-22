@@ -1,6 +1,6 @@
 package com.esgi.flexges.model;
 
-import java.util.List;
+import java.util.UUID;
 
 public class Enterprise {
     private String name;
@@ -8,6 +8,7 @@ public class Enterprise {
     private String adminPassword;
     private String address;
     private String city;
+    private String id = UUID.randomUUID().toString();
 
     public Enterprise() {
     }
@@ -60,6 +61,14 @@ public class Enterprise {
         this.adminPassword = adminPassword;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Enterprise{" +
@@ -68,6 +77,7 @@ public class Enterprise {
                 ", adminPassword='" + adminPassword + '\'' +
                 ", address='" + address + '\'' +
                 ", city='" + city + '\'' +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

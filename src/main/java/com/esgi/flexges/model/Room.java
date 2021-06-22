@@ -7,6 +7,7 @@ import java.util.UUID;
 public class Room {
 
     private String enterprise;
+    private String enterpriseId;
     private String name;
     private int capacity;
     private int current = 0;
@@ -70,10 +71,19 @@ public class Room {
         this.id = id;
     }
 
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
                 "enterprise='" + enterprise + '\'' +
+                ", enterpriseId='" + enterpriseId + '\'' +
                 ", name='" + name + '\'' +
                 ", capacity=" + capacity +
                 ", current=" + current +

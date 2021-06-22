@@ -90,8 +90,8 @@ public class EnterpriseService {
     }
 
 
-    public List<UserApp> getEmployees(String enterprise) throws ExecutionException, InterruptedException {
-        return enterpriseRepository.getEmployees(enterprise);
+    public List<UserApp> getEmployees(String enterpriseId) throws ExecutionException, InterruptedException {
+        return enterpriseRepository.getEmployees(enterpriseId);
     }
 
     public void addEmployees(List<UserApp> users) throws Exception {
