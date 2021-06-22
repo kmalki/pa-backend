@@ -39,7 +39,7 @@ public class EnterpriseController {
     public Enterprise addEnterprise(@RequestParam("file") MultipartFile file, @RequestParam("json") String jsonEnterprise) throws Exception {
         Enterprise enterprise = new ObjectMapper().readValue(jsonEnterprise, Enterprise.class);
         enterpriseService.configureEnterprise(file, enterprise);
-        userService.createUser(new UserApp(enterprise.getAdminEmail(), enterprise.getAdminPassword(), enterprise.getName(), true));
+        userService.createUser(new UserApp(enterprise.getAdminEmail(), enterprise.getAdminPassword(), enterprise.getName(), true, enterprise.getId()));
         return enterprise;
     }
 
