@@ -53,7 +53,7 @@ public class UserRepository {
         else {
             for (QueryDocumentSnapshot doc : documents) {
                 if(kick){
-                    batch.update(doc.getReference(), "enterprise", null, "enterprise", null);
+                    batch.update(doc.getReference(), "enterpriseId", null, "enterprise", null);
                 }else{
                     batch.update(doc.getReference(), "enterpriseId", employees.get(0).getEnterpriseId(), "enterprise", employees.get(0).getEnterprise());
                 }
