@@ -53,7 +53,7 @@ public class UserController {
 
     @PostMapping("/getRooms")
     public ResponseEntity<List<Room>> getRooms(@RequestBody UserApp user) throws ExecutionException, InterruptedException {
-        List<Room> rooms = roomService.getRooms(user.getEnterprise());
+        List<Room> rooms = roomService.getRooms(user.getEnterpriseId());
         return ResponseEntity.status(HttpStatus.OK).body(rooms);
     }
 }

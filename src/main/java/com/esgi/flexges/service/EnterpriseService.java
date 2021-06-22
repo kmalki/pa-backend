@@ -64,6 +64,7 @@ public class EnterpriseService {
                 }
             }
             tempRoom.setEnterprise(enterprise.getName());
+            tempRoom.setEnterpriseId(enterprise.getId());
             rooms.add(tempRoom);
         }
         Sheet sheet2 = workbook.getSheetAt(1);

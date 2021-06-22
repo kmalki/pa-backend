@@ -42,7 +42,7 @@ public class RoomRepository {
     }
 
     public List<Room> getUserRooms(String enterprise) throws ExecutionException, InterruptedException {
-        ApiFuture<QuerySnapshot> future = firestore.collection("rooms").whereEqualTo("enterprise", enterprise).get();
+        ApiFuture<QuerySnapshot> future = firestore.collection("rooms").whereEqualTo("enterpriseId", enterprise).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         return documents.stream().map(r -> r.toObject(Room.class)).collect(Collectors.toList());
     }
