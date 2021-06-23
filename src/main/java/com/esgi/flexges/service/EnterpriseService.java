@@ -82,7 +82,7 @@ public class EnterpriseService {
             }
         }
 
-
+//        logger.info(employees.toString());
         userRepository.updateUsersRights(employees.stream().map(
                 e -> new UserApp(e, enterprise.getName(), false, enterprise.getId())
                 ).collect(Collectors.toList()), false);

@@ -44,23 +44,34 @@ public class UserRepository {
 
         WriteBatch batch = firestore.batch();
 
+        for(UserApp emp : employees){
+            ApiFuture<DocumentSnapshot> future = firestore.collection("users").document(emp.getEmail()).get();
+            DocumentSnapshot document = future.get();
+
+            if(document.exists()){
+                if(kick){
+                    batch.update(document.getReference(), "enterpriseId", null, "enterprise", null);
+                }else{
+                    batch.update(document.getReference(), "enterpriseId", emp.getEnterpriseId(), "enterprise", emp.getEnterprise());
+                }
+            }else{
+                ApiFuture<WriteResult> future_insert = firestore.collection("users").document(emp.getEmail()).set(emp);
+            }
+        }
+
         ApiFuture<QuerySnapshot> future = firestore.collection("users").whereIn("email", employees.stream().map(UserApp::getEmail).collect(Collectors.toList())).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
-        if(documents.isEmpty()){
-            logger.info("No user found for this enterprise");
-        }
-        else {
-            for (QueryDocumentSnapshot doc : documents) {
-                if(kick){
-                    batch.update(doc.getReference(), "enterpriseId", null, "enterprise", null);
-                }else{
-                    batch.update(doc.getReference(), "enterpriseId", employees.get(0).getEnterpriseId(), "enterprise", employees.get(0).getEnterprise());
-                }
+        for (QueryDocumentSnapshot doc : documents) {
+            if(kick){
+                batch.update(doc.getReference(), "enterpriseId", null, "enterprise", null);
+            }else{
+                batch.update(doc.getReference(), "enterpriseId", employees.get(0).getEnterpriseId(), "enterprise", employees.get(0).getEnterprise());
             }
-            batch.commit();
-            logger.info(documents.size() + "user rights updated");
         }
+        batch.commit();
+        logger.info(documents.size() + "user rights updated");
+
     }
 
     public UserApp findByEmail(String email) throws ExecutionException, InterruptedException {
