@@ -91,7 +91,6 @@ public class EnterpriseService {
         }
 
         userRepository.updateUsersRights(employees, false);
-        enterprise.setAdminPassword(bCryptPasswordEncoder.encode(enterprise.getAdminPassword()));
         enterpriseRepository.addEnterprise(enterprise);
         roomRepository.addRooms(rooms);
     }

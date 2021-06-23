@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,9 +36,13 @@ public class EnterpriseController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @PostMapping("/addEnterprise")
     public Enterprise addEnterprise(@RequestParam("file") MultipartFile file, @RequestParam("json") String jsonEnterprise) throws Exception {
         Enterprise enterprise = new ObjectMapper().readValue(jsonEnterprise, Enterprise.class);
+        enterprise.setAdminPassword(bCryptPasswordEncoder.encode(enterprise.getAdminPassword()));
         enterpriseService.configureEnterprise(file, enterprise);
         userService.createUser(new UserApp(enterprise.getAdminEmail(), enterprise.getAdminPassword(), enterprise.getName(), true, enterprise.getId()));
         return enterprise;

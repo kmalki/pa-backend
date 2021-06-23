@@ -23,7 +23,6 @@ public class UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void createUser(UserApp user) throws Exception {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         if(userRepository.findByEmail(user.getEmail()) == null){
             userRepository.addUser(user);
         }

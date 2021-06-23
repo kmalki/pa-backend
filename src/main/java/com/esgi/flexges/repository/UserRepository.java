@@ -59,18 +59,8 @@ public class UserRepository {
             }
         }
 
-        ApiFuture<QuerySnapshot> future = firestore.collection("users").whereIn("email", employees.stream().map(UserApp::getEmail).collect(Collectors.toList())).get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-
-        for (QueryDocumentSnapshot doc : documents) {
-            if(kick){
-                batch.update(doc.getReference(), "enterpriseId", null, "enterprise", null);
-            }else{
-                batch.update(doc.getReference(), "enterpriseId", employees.get(0).getEnterpriseId(), "enterprise", employees.get(0).getEnterprise());
-            }
-        }
         batch.commit();
-        logger.info(documents.size() + "user rights updated");
+        logger.info(employees.size() + "user rights updated");
 
     }
 

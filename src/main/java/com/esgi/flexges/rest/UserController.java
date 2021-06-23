@@ -35,6 +35,7 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<String> signUp(@RequestBody UserApp user) throws Exception {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 "ok");
