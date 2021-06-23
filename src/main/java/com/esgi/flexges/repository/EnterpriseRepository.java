@@ -48,7 +48,7 @@ public class EnterpriseRepository {
         DocumentSnapshot doc = future_get.get();
 
         if(doc.exists()) {
-            ApiFuture<QuerySnapshot> future_get_2 = firestore.collection("users").whereEqualTo("enterpriseId", doc.get("enterpriseId")).get();
+            ApiFuture<QuerySnapshot> future_get_2 = firestore.collection("users").whereEqualTo("enterpriseId", doc.getId()).get();
             return future_get_2.get().toObjects(UserApp.class);
         }else{
             return null;
