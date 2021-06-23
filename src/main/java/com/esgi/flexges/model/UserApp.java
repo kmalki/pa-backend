@@ -11,9 +11,11 @@ public class UserApp {
     public UserApp() {
     }
 
-    public UserApp(String email, String enterprise) {
+    public UserApp(String email, String enterprise, boolean admin, String enterpriseId) {
         this.email = email;
         this.enterprise = enterprise;
+        this.admin = admin;
+        this.enterpriseId = enterpriseId;
     }
 
     public UserApp(String email, String password, String enterprise, boolean admin, String enterpriseId) {

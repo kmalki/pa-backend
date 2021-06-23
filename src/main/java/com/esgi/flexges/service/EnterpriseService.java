@@ -84,7 +84,7 @@ public class EnterpriseService {
 
 
         userRepository.updateUsersRights(employees.stream().map(
-                e -> new UserApp(e, enterprise.getName())
+                e -> new UserApp(e, enterprise.getName(), false, enterprise.getId())
                 ).collect(Collectors.toList()), false);
         enterpriseRepository.addEnterprise(enterprise);
         roomRepository.addRooms(rooms);
