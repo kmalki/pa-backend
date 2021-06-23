@@ -12,7 +12,6 @@ public class Room {
     private int capacity;
     private int current = 0;
     private String id = UUID.randomUUID().toString();
-    private List<String> employees = new ArrayList<>();
 
     public Room() {
     }
@@ -55,14 +54,6 @@ public class Room {
         this.capacity = capacity;
     }
 
-    public List<String> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<String> employees) {
-        this.employees = employees;
-    }
-
     public String getId() {
         return id;
     }
@@ -88,7 +79,6 @@ public class Room {
                 ", capacity=" + capacity +
                 ", current=" + current +
                 ", id='" + id + '\'' +
-                ", employees=" + employees +
                 '}';
     }
 }
