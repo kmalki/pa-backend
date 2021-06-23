@@ -69,23 +69,28 @@ public class EnterpriseService {
         }
         Sheet sheet2 = workbook.getSheetAt(1);
         passHeader = false;
-        List<String> employees = new ArrayList<>();
+        List<UserApp> employees = new ArrayList<>();
         for (Row currentRow : sheet2) {
             if(!passHeader){
                 passHeader = true;
                 continue;
             }
+            int i = 0;
+            UserApp employee = new UserApp();
+            employee.setEnterprise(enterprise.getName());
+            employee.setEnterpriseId(enterprise.getId());
+
             for (Cell currentCell : currentRow) {
-                if (currentCell.getCellType() == CellType.STRING) {
-                    employees.add(currentCell.getStringCellValue());
+                if(currentCell.getColumnIndex()==0){
+                    employee.setEmail(currentCell.getStringCellValue());
+                }else if(currentCell.getColumnIndex()==1){
+                    employee.setAdmin(currentCell.getStringCellValue().equalsIgnoreCase("yes"));
                 }
             }
+            employees.add(employee);
         }
 
-//        logger.info(employees.toString());
-        userRepository.updateUsersRights(employees.stream().map(
-                e -> new UserApp(e, enterprise.getName(), false, enterprise.getId())
-                ).collect(Collectors.toList()), false);
+        userRepository.updateUsersRights(employees, false);
         enterpriseRepository.addEnterprise(enterprise);
         roomRepository.addRooms(rooms);
     }
