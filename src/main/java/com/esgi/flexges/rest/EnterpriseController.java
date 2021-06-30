@@ -6,7 +6,6 @@ import com.esgi.flexges.model.UserApp;
 import com.esgi.flexges.repository.UserRepository;
 import com.esgi.flexges.service.EnterpriseService;
 import com.esgi.flexges.service.UserService;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/enterprise")
@@ -58,13 +54,6 @@ public class EnterpriseController {
     public ResponseEntity<List<UserApp>> getEmployees(@RequestBody String enterpriseId) throws Exception {
         List<UserApp> employees = enterpriseService.getEmployees(enterpriseId);
         return ResponseEntity.status(HttpStatus.OK).body(employees);
-    }
-
-    @GetMapping("/test")
-    public UserApp test() throws ExecutionException, InterruptedException {
-        UserApp u = userRepository.findByEmail("molotov");
-        logger.info(String.valueOf(u == null));
-        return u;
     }
 
     @PostMapping("/addEmployees")
