@@ -1,6 +1,7 @@
 package com.esgi.flexges.rest;
 
 
+import com.esgi.flexges.model.AccessTokenAndDate;
 import com.esgi.flexges.model.Login;
 import com.esgi.flexges.model.Room;
 import com.esgi.flexges.model.UserApp;
@@ -62,7 +63,7 @@ public class UserController {
     }
 
     @GetMapping("/getAccessToken")
-    public String getAccessToken() throws IOException {
+    public AccessTokenAndDate getAccessToken() throws IOException {
         GoogleCredentials googleCredentials = GoogleCredentials.
                 fromStream(new FileInputStream("C:\\Users\\kamel\\Desktop\\PA5\\flexges\\src\\main\\resources\\satest.json"))
                 .createScoped("https://www.googleapis.com/auth/cloud-platform");
@@ -70,6 +71,6 @@ public class UserController {
         AccessToken token = googleCredentials.refreshAccessToken();
         logger.info(token.getTokenValue());
         logger.info(token.getExpirationTime().toString());
-        return token.getTokenValue();
+        return new AccessTokenAndDate(token.getTokenValue(), token.getExpirationTime());
     }
 }
